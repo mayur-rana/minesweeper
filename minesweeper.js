@@ -5,16 +5,31 @@ var board = {
   cells: [
     {row: 0, col: 0, isMine: false, hidden: true}, 
     {row: 0, col: 1, isMine: false, hidden: true}, 
+    {row: 0, col: 2, isMine: false, hidden: true}, 
+    {row: 0, col: 3, isMine: true, hidden: true},
     {row: 1, col: 0, isMine: false, hidden: true}, 
-    {row: 1, col: 1, isMine: true, hidden: true}
+    {row: 1, col: 1, isMine: false, hidden: true}, 
+    {row: 1, col: 2, isMine: true, hidden: true}, 
+    {row: 1, col: 3, isMine: false, hidden: true},
+    {row: 2, col: 0, isMine: true, hidden: true}, 
+    {row: 2, col: 1, isMine: false, hidden: true}, 
+    {row: 2, col: 2, isMine: false, hidden: true}, 
+    {row: 2, col: 3, isMine: false, hidden: true},
+    {row: 3, col: 0, isMine: false, hidden: true}, 
+    {row: 3, col: 1, isMine: false, hidden: true}, 
+    {row: 3, col: 2, isMine: true, hidden: true}, 
+    {row: 3, col: 3, isMine: false, hidden: true}
   ]
 }
 
 function startGame () {
   // Don't remove this function call: it makes the game work!
   for (var i = 0; i < board.cells.length; i++){
-    // Add surroundingMines to Cells (calls func to get the value for # of mines surrounding the cell).
+    // Add surroundingMines to Cells array (calls func to get the value for # of mines surrounding the cell).
     board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
+
+    document.addEventListener('click', checkForWin);
+    document.addEventListener('contextmenu', checkForWin);
 
   }
   lib.initBoard()
@@ -29,7 +44,19 @@ function checkForWin () {
   // You can use this function call to declare a winner (once you've
   // detected that they've won, that is!)
   //   lib.displayMessage('You win!')
+  
+for (i=0; i<board.cells.length; i++){
+  if(!board.cells[i].isMine && board.cells[i].hidden) {
+    return;
+  }
+  else if(board.cells[i].isMine && !board.cells[i].isMarked) {
+    return;
+  }
 }
+lib.displayMessage('You win!')
+}
+
+
 
 // Define this function to count the number of mines around the cell
 // (there could be as many as 8). You don't have to get the surrounding
